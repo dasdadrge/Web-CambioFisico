@@ -10,9 +10,13 @@ REM (watched paths come back long and no longer match the registered prefix).
 REM The batch path operators do NOT un-shorten a literal, so we resolve the
 REM real long name below before starting the dev server.
 REM
+REM No --port here on purpose: with autoPort the harness assigns a free port
+REM through the PORT environment variable, which next dev already honours. A
+REM hardcoded port collides with other chats running the same server.
+REM
 REM NOTE: keep CRLF line endings, and no percent signs in these comments -
 REM cmd parses them as parameter substitutions even inside REM.
 setlocal
 set "PATH=C:\Program Files\nodejs;%PATH%"
 for /f "usebackq delims=" %%I in (`powershell -NoProfile -Command "(Get-Item -LiteralPath '%~dp0.').FullName"`) do cd /d "%%I"
-call npm run dev -- --port 3100
+call npm run dev
